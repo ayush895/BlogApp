@@ -1,0 +1,55 @@
+/* Toast styling */
+#error-toast {
+    position: fixed;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: 0px 3px 6px rgba(0,0,0,0.2);
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+#error-toast.show {
+    top: 20px;
+    opacity: 1;
+}
+
+/* Example login card */
+.login-card {
+    width: 350px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    background: #fff;
+}
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+.login-card input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+.login-card button {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.login-card button:hover {
+    background: #0056b3;
+}
