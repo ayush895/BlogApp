@@ -1,46 +1,106 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Login</title>
-  <link rel="stylesheet" href="{% static 'authentication/css/style.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-  <div class="auth-container">
-    <h2>Login</h2>
+ <head>
+   <title>Login</title>
+   <link rel="stylesheet" href="{% static 'authentication/css/style.css' %}" />
+   <link
+     rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+   />
+ </head>
+ <body>
+   <div class="auth-container">
+     <h2>Login</h2>
 
-    {% if messages %}
-      <ul class="messages">
-        {% for message in messages %}
-          <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
 
-    <form method="POST" action="">
-      {% csrf_token %}
-      <input type="email" name="email" placeholder="Email" required><br>
-      <div class="password-field">
-        <input type="password" name="password" placeholder="Enter Password" required>
-        <span id="togglePassword">
-          <i class="fa fa-eye"></i>
-        </span>
-      </div>
-      <button type="submit">Login</button>
-    </form>
+     {% if messages %}
+     <ul class="messages">
+       {% for message in messages %}
+       <li class="{{ message.tags }}">{{ message }}</li>
+       {% endfor %}
+     </ul>
+     {% endif %}
 
-    <p>Don’t have an account? <a href="{% url 'signup' %}">Sign up</a></p>
-  </div>
- <script>
-const togglePassword = document.querySelector("#togglePassword");
-const password = document.querySelector("#password");
 
-togglePassword.addEventListener("click", function () {
-    const type = password.getAttribute("type") === "password" ? "text" : "password";
-    password.setAttribute("type", type);
-    this.innerHTML = type === "password" ? '<i class="fa fa-eye"></i>' : '<i class="fa fa-eye-slash"></i>';
-});
-</script>
-</body>
+     <form id="loginForm" method="POST" action="">
+       {% csrf_token %}
+
+
+       <div class="input-group">
+         <div class="input-field-container">
+           <input
+             type="email"
+             name="email"
+             id="email"
+             placeholder="Email"
+             value=""
+             autocomplete="off"
+             autocapitalize="off"
+             autocorrect="off"
+             spellcheck="false"
+             required
+           />
+           <div class="validation-icon" id="email-icon"></div>
+         </div>
+         <div class="error-message" id="email-error"></div>
+       </div>
+
+
+       <div class="input-group">
+         <div class="input-field-container password-field">
+           <input
+             type="password"
+             name="password"
+             id="password"
+             placeholder="Enter Password"
+             value=""
+             autocomplete="off"
+             required
+           />
+           <span class="toggle-password" id="togglePassword"
+             ><i class="fa fa-eye"></i
+           ></span>
+           <div class="validation-icon" id="password-icon"></div>
+         </div>
+         <div class="error-message" id="password-error"></div>
+       </div>
+
+
+       <button type="submit" class="btn" id="submitBtn" disabled>Login</button>
+     </form>
+
+
+     <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+   </div>
+
+
+   <!-- Tooltip for errors -->
+   <div id="errorTooltip" class="error-tooltip"></div>
+
+
+   <script>
+     // Clear form fields on page load
+     document.addEventListener("DOMContentLoaded", function () {
+       document.getElementById("email").value = "";
+       document.getElementById("password").value = "";
+     });
+
+
+     const togglePassword = document.querySelector("#togglePassword");
+     const password = document.querySelector("#password");
+
+
+     togglePassword.addEventListener("click", function () {
+       const type =
+         password.getAttribute("type") === "password" ? "text" : "password";
+       password.setAttribute("type", type);
+       this.innerHTML =
+         type === "password"
+           ? '<i class="fa fa-eye"></i>'
+           : '<i class="fa fa-eye-slash"></i>';
+     });
+   </script>
+   <script src="{% static 'authentication/js/login.js' %}"></script>
+ </body>
 </html>

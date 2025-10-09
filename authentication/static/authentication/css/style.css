@@ -1,147 +1,627 @@
 /* General Page Setup */
 body {
-  font-family: "Poppins", sans-serif;
-  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-  height: 100vh;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+ font-family: "Poppins", sans-serif;
+ background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+ height: 100vh;
+ margin: 0;
+ display: flex;
+ justify-content: center;
+ align-items: center;
 }
+
 
 /* Auth Card */
 .auth-container {
-  background-color: #fff;
-  padding: 40px 45px;
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  max-width: 400px;
-  box-sizing: border-box;
-  text-align: center;
+ background-color: #fff;
+ padding: 40px 45px;
+ border-radius: 12px;
+ box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+ width: 100%;
+ max-width: 400px;
+ box-sizing: border-box;
+ text-align: center;
 }
+
 
 /* Heading */
 .auth-container h2 {
-  margin-bottom: 25px;
-  color: #1e88e5;
-  font-size: 28px;
-  font-weight: 600;
+ margin-bottom: 25px;
+ color: #1e88e5;
+ font-size: 28px;
+ font-weight: 600;
 }
+
 
 /* Input fields */
 .auth-container input {
-  width: 100%;
-  padding: 12px 15px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 15px;
-  box-sizing: border-box;
-  transition: border-color 0.3s, box-shadow 0.3s;
+ width: 100%;
+ padding: 12px 15px;
+ margin: 10px 0;
+ border: 1px solid #ccc;
+ border-radius: 8px;
+ font-size: 15px;
+ box-sizing: border-box;
+ transition: border-color 0.3s, box-shadow 0.3s;
 }
 
+
 .auth-container input:focus {
-  border-color: #1e88e5;
-  box-shadow: 0 0 5px rgba(30, 136, 229, 0.4);
-  outline: none;
+ border-color: #1e88e5;
+ box-shadow: 0 0 5px rgba(30, 136, 229, 0.4);
+ outline: none;
 }
+
 
 /* Submit button */
 .auth-container button {
-  background-color: #1e88e5;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  width: 100%;
-  font-size: 16px;
-  margin-top: 10px;
-  transition: background-color 0.3s;
+ background-color: #1e88e5;
+ color: white;
+ border: none;
+ padding: 12px 20px;
+ border-radius: 8px;
+ cursor: pointer;
+ width: 100%;
+ font-size: 16px;
+ margin-top: 10px;
+ transition: background-color 0.3s;
 }
 
+
 .auth-container button:hover {
-  background-color: #1565c0;
+ background-color: #1565c0;
 }
+
 
 /* Links */
 .auth-container a {
-  color: #1e88e5;
-  text-decoration: none;
-  font-weight: 500;
+ color: #1e88e5;
+ text-decoration: none;
+ font-weight: 500;
 }
 
+
 .auth-container a:hover {
-  text-decoration: underline;
+ text-decoration: underline;
 }
+
 
 /* Message Styling */
 .messages {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 15px;
+ list-style: none;
+ padding: 0;
+ margin-bottom: 15px;
 }
+
 
 .messages li {
-  font-size: 14px;
-  padding: 10px 12px;
-  border-radius: 6px;
-  margin-bottom: 8px;
-  text-align: left;
+ font-size: 14px;
+ padding: 10px 12px;
+ border-radius: 6px;
+ margin-bottom: 8px;
+ text-align: left;
 }
+
 
 .messages li.error {
-  background-color: #ffebee;
-  color: #d32f2f;
-  border: 1px solid #ef9a9a;
+ background-color: #ffebee;
+ color: #d32f2f;
+ border: 1px solid #ef9a9a;
 }
+
 
 .messages li.success {
-  background-color: #e8f5e9;
-  color: #388e3c;
-  border: 1px solid #a5d6a7;
+ background-color: #e8f5e9;
+ color: #388e3c;
+ border: 1px solid #a5d6a7;
 }
+
 
 .password-field {
-    position: relative;
-    width: 300px;
+ position: relative;
+ width: 300px;
 }
+
 
 .password-field input {
-    width: 100%;
-    padding: 10px 40px 10px 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+ width: 100%;
+ padding: 10px 40px 10px 10px;
+ font-size: 16px;
+ border: 1px solid #ccc;
+ border-radius: 5px;
 }
+
 
 .password-field span {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #555;
+ position: absolute;
+ right: 10px;
+ top: 50%;
+ transform: translateY(-50%);
+ cursor: pointer;
+ color: #555;
 }
+
 
 .password-field span:hover {
-    color: #000;
+ color: #000;
 }
 
-button:disabled{
-  background-color: #ccc;
-  cursor:not-allowed;
+
+button:disabled {
+ background-color: #ccc;
+ cursor: not-allowed;
 }
+
 
 /* Responsive */
 @media (max-width: 480px) {
-  .auth-container {
-    padding: 30px 25px;
-  }
+ .auth-container {
+   padding: 30px 25px;
+ }
 
-  .auth-container h2 {
-    font-size: 24px;
-  }
 
+ .auth-container h2 {
+   font-size: 24px;
+ }
 }
+/* Basic reset and container styles */
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+}
+
+
+body {
+ font-family: Arial, sans-serif;
+ background-color: #f5f5f5;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ min-height: 100vh;
+ padding: 20px;
+}
+
+
+.auth-container {
+ background: white;
+ padding: 40px;
+ border-radius: 10px;
+ box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+ width: 100%;
+ max-width: 400px;
+}
+
+
+.auth-container h2 {
+ text-align: center;
+ margin-bottom: 30px;
+ color: #333;
+}
+
+
+/* Input group styling */
+.input-group {
+ margin-bottom: 20px;
+ position: relative;
+}
+
+
+.input-field-container {
+ position: relative;
+ display: block;
+ width: 100%;
+}
+
+
+/* Base input styling */
+.input-field-container input {
+ width: 100%;
+ height: 48px; /* Fixed height for consistent positioning */
+ padding: 12px 45px 12px 15px; /* Default padding for regular fields */
+ border: 2px solid #ddd;
+ border-radius: 5px;
+ font-size: 16px;
+ transition: all 0.3s ease;
+ outline: none;
+ line-height: 1.2;
+ box-sizing: border-box;
+}
+
+
+/* Password field specific styling - more padding for two icons */
+.password-field input {
+ padding-right: 85px !important; /* Space for both eye and validation icons */
+}
+
+
+.input-field-container input:focus {
+ border-color: #007bff;
+ box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+
+.input-field-container input.valid {
+ border-color: #28a745;
+ background-color: #f8fff9;
+}
+
+
+.input-field-container input.invalid {
+ border-color: #dc3545;
+ background-color: #fff8f8;
+}
+
+
+/* Password field container */
+.password-field {
+ position: relative;
+}
+
+
+/* Toggle password button styling */
+.toggle-password {
+ position: absolute;
+ right: 50px; /* Position between validation icon and input text */
+ top: 50%;
+ transform: translateY(-50%);
+ cursor: pointer;
+ color: #666;
+ font-size: 16px;
+ z-index: 3;
+ padding: 4px;
+ transition: color 0.3s ease;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ width: 24px;
+ height: 24px;
+ border-radius: 50%;
+ background-color: transparent;
+}
+
+
+.toggle-password:hover {
+ color: #007bff;
+ background-color: rgba(0, 123, 255, 0.1);
+}
+
+
+/* Validation icon styling */
+.validation-icon {
+ position: absolute;
+ right: 15px; /* Always at the far right edge */
+ top: 50%;
+ transform: translateY(-50%);
+ font-size: 16px;
+ z-index: 2;
+ width: 20px;
+ height: 20px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ cursor: default;
+}
+
+
+.validation-icon.valid {
+ color: #28a745;
+}
+
+
+.validation-icon.invalid {
+ color: #dc3545;
+ cursor: pointer;
+}
+
+
+.validation-icon i {
+ font-size: 16px;
+}
+
+
+/* Error message styling */
+.error-message {
+ margin-top: 8px;
+ min-height: 0;
+ max-height: 0;
+ overflow: hidden;
+ transition: max-height 0.3s ease, margin 0.3s ease;
+}
+
+
+.error-message.show {
+ max-height: 200px;
+ margin-top: 8px;
+}
+
+
+.error-text {
+ color: #dc3545;
+ font-size: 13px;
+ display: block;
+ margin-bottom: 4px;
+ line-height: 1.4;
+ padding: 6px 10px;
+ background-color: #fff5f5;
+ border: 1px solid #fed7d7;
+ border-radius: 4px;
+ position: relative;
+}
+
+
+.error-text:before {
+ content: "";
+ position: absolute;
+ top: -5px;
+ left: 15px;
+ width: 0;
+ height: 0;
+ border-left: 5px solid transparent;
+ border-right: 5px solid transparent;
+ border-bottom: 5px solid #fed7d7;
+}
+
+
+/* Error tooltip */
+.error-tooltip {
+ position: absolute;
+ background-color: #333;
+ color: white;
+ padding: 8px 12px;
+ border-radius: 4px;
+ font-size: 12px;
+ white-space: nowrap;
+ z-index: 1000;
+ opacity: 0;
+ visibility: hidden;
+ transition: opacity 0.3s ease, visibility 0.3s ease;
+ pointer-events: none;
+ max-width: 300px;
+ white-space: normal;
+ line-height: 1.4;
+}
+
+
+.error-tooltip.show {
+ opacity: 1;
+ visibility: visible;
+}
+
+
+.error-tooltip:after {
+ content: "";
+ position: absolute;
+ top: 100%;
+ left: 50%;
+ margin-left: -5px;
+ width: 0;
+ height: 0;
+ border-top: 5px solid #333;
+ border-left: 5px solid transparent;
+ border-right: 5px solid transparent;
+}
+
+
+/* Button styling */
+.btn {
+ width: 100%;
+ padding: 12px;
+ border: none;
+ border-radius: 5px;
+ font-size: 16px;
+ font-weight: bold;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ margin-top: 10px;
+}
+
+
+.btn:disabled {
+ background-color: #6c757d;
+ color: #fff;
+ cursor: not-allowed;
+ opacity: 0.6;
+}
+
+
+.btn:not(:disabled) {
+ background-color: #007bff;
+ color: white;
+ cursor: pointer;
+ opacity: 1;
+}
+
+
+.btn:not(:disabled):hover {
+ background-color: #0056b3;
+ transform: translateY(-1px);
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Link styling */
+p {
+ text-align: center;
+ margin-top: 20px;
+ color: #666;
+}
+
+
+p a {
+ color: #007bff;
+ text-decoration: none;
+}
+
+
+p a:hover {
+ text-decoration: underline;
+}
+
+
+/* Messages styling */
+.messages {
+ list-style: none;
+ margin-bottom: 20px;
+}
+
+
+.messages li {
+ padding: 10px;
+ margin-bottom: 10px;
+ border-radius: 4px;
+ background-color: #d4edda;
+ border: 1px solid #c3e6cb;
+ color: #155724;
+}
+
+
+.messages li.error {
+ background-color: #f8d7da;
+ border-color: #f5c6cb;
+ color: #721c24;
+}
+
+
+/* Responsive design */
+@media (max-width: 480px) {
+ .auth-container {
+   padding: 20px;
+   margin: 10px;
+ }
+
+
+ .input-field-container input {
+   font-size: 16px; /* Prevent zoom on iOS */
+   height: 44px; /* Slightly smaller on mobile */
+   padding: 10px 40px 10px 12px; /* Adjust padding for mobile */
+ }
+
+
+ .password-field input {
+   padding-right: 75px !important; /* Less padding on mobile */
+ }
+
+
+ .toggle-password {
+   right: 45px; /* Adjust for mobile */
+   width: 20px;
+   height: 20px;
+   font-size: 14px;
+ }
+
+
+ .validation-icon {
+   right: 12px;
+   width: 18px;
+   height: 18px;
+ }
+
+
+ .validation-icon i {
+   font-size: 14px;
+ }
+}
+
+
+/* Animation for success state */
+@keyframes checkmark {
+ 0% {
+   transform: translateY(-50%) scale(0);
+ }
+ 50% {
+   transform: translateY(-50%) scale(1.2);
+ }
+ 100% {
+   transform: translateY(-50%) scale(1);
+ }
+}
+
+
+.validation-icon.valid {
+ animation: checkmark 0.3s ease;
+}
+
+
+/* Hover effects for better UX */
+.toggle-password:active {
+ transform: translateY(-50%) scale(0.95);
+}
+
+
+.validation-icon.invalid:hover {
+ color: #c82333;
+ transform: translateY(-50%) scale(1.1);
+}
+
+
+/* Loading spinner for submit button */
+.btn .fa-spinner {
+ margin-right: 8px;
+}
+
+
+/* Focus management */
+.input-field-container input:focus + .toggle-password {
+ color: #007bff;
+}
+
+
+.input-field-container input:focus ~ .validation-icon {
+ transform: translateY(-50%) scale(1.1);
+}
+
+
+/* Shake animation for form errors */
+@keyframes shake {
+ 0%,
+ 100% {
+   transform: translateX(0);
+ }
+ 10%,
+ 30%,
+ 50%,
+ 70%,
+ 90% {
+   transform: translateX(-5px);
+ }
+ 20%,
+ 40%,
+ 60%,
+ 80% {
+   transform: translateX(5px);
+ }
+}
+
+
+/* Debug borders - remove in production */
+.input-field-container {
+ /* border: 1px solid red; */
+}
+
+
+.toggle-password {
+ /* border: 1px solid blue; */
+}
+
+
+.validation-icon {
+ /* border: 1px solid green; */
+}
+
+
+/* Ensure icons don't overflow */
+.input-field-container {
+ overflow: visible; /* Allow positioning but prevent overflow */
+ position: relative;
+}
+
+
+/* Constrain all absolute positioned elements to container */
+.input-field-container .toggle-password,
+.input-field-container .validation-icon {
+ max-width: 30px;
+ max-height: 30px;
+}
+
+
+

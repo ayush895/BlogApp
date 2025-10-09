@@ -14,21 +14,27 @@ import json
 def signup_view(request):
     print("Signup view accessed")
     if request.method == 'POST':
-        form=SignUpForm(request.POST)
-        if form.is_valid():
-            username=form.cleaned_data['username']
-            email= form.cleaned_data['email']
-            password=form.cleaned_data['password']
+        # form=SignUpForm(request.POST)
+        # if form.is_valid():
+            # fullname=form.cleaned_data['firstname']
+            # email= form.cleaned_data['email']
+            # password=form.cleaned_data['password']
+            # print(fullname,email,password)
+
+            firstname=request.POST.get('firstname')
+            email=request.POST.get('email')
+            password=request.POST.get('password')
 
             #creating the user
-            user=User.objects.create_user(username=username,email=email,password=password)
+            user=User.objects.create_user(first_name=firstname,username=email,email=email,password=password)
             
             print(f"User created: {user}")
             messages.success(request, "Account created successfully! Please login.")
             return redirect('login')
-        else:
-            print(form.errors)
-            messages.error(request, "Please correct the errors below.")
+    
+        # else:
+        #     print(form.errors)
+        #     messages.error(request, "Please correct the errors below.")
     else:
         form=SignUpForm()   
     return render(request, 'authentication/signup.html', {'form': form})
