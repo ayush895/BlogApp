@@ -25,16 +25,10 @@ class SignUpForm(forms.ModelForm):
     
     class Meta:
         model = User
-        fields = ['username', 'email']
-        widgets={
-            'username': forms.TextInput(attrs={'placeholder': 'Enter Username'}),
-        }
-        # widgets = {
-        #     'username': forms.TextInput(attrs={'placeholder': 'Enter Name'}),
-        #     'email': forms.EmailInput(attrs={'placeholder': 'Enter Email'}),
-        #     'password1': forms.PasswordInput(attrs={'placeholder': 'Enter Password', 'id': 'password'}),
-        #     'password2': forms.PasswordInput(attrs={'placeholder': 'Confirm Password', 'id': 'password'}),
-        # }
+        # We'll set username=email in the view.
+        fields = ['email']
+        widgets = {}
+      
 
     def clean(self):
         cleaned_data = super().clean()

@@ -9,7 +9,14 @@
         <h2>{{ blog.title }}</h2>
         <p class="text-muted">By {{ blog.author.username }} | {{ blog.created_at|date:"d M Y" }}</p>
         <p>{{ blog.content }}</p>
-        <a href="{% url 'home' %}" class="btn btn-secondary btn-sm">Back</a>
+    <a href="{% url 'home' %}" class="btn btn-secondary btn-sm">Back</a>
+    {% if request.user == blog.author %}
+    <form method="POST" action="{% url 'blog_delete' blog.id %}" class="d-inline" onsubmit="return confirm('Delete this blog?');">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{% url 'home' %}">
+        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+    </form>
+    {% endif %}
     </div>
 </div>
 {% endblock %}

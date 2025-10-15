@@ -16,7 +16,7 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       {% if user.is_authenticated %}
-          <span class="navbar-text text-white me-3">Hello, {{ user.username }}</span>
+          <span class="navbar-text text-white me-3">Hello, {{ user.first_name }}</span>
           <a href="{% url 'create_blog' %}" class="btn btn-sm btn-primary me-2">Create Blog</a>
           <a href="{% url 'logout' %}" class="btn btn-sm btn-danger">Logout</a>
       {% else %}

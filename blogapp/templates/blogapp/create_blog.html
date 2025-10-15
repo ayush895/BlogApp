@@ -15,6 +15,13 @@
         <label class="form-label">Upload Image</label>
         <input type="file" name="image" class="form-control">
     </div>
-    <button type="submit" class="btn btn-primary w-100">Post Blog</button>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="submit" name="action" value="save_draft" class="btn btn-secondary me-md-2">
+            <i class="bi bi-save"></i> Save Draft
+        </button>
+        <button type="submit" name="action" value="publish" class="btn btn-primary">
+            <i class="bi bi-send"></i> Publish Blog
+        </button>
+    </div>
 </form>
 {% endblock %}

@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from django.contrib.messages import constants as messages
 from decouple import config
+import pymysql
+
+# Configure PyMySQL to work with Django
+pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,12 +86,15 @@ WSGI_APPLICATION = 'blogproject.wsgi.application'
 
 DATABASES = {
     'default': {
-         'ENGINE': 'django.db.backends.mysql',
-        'NAME':config('DB_NAME'),
-        'USER':config('DB_USER'),    # Replace with your MySQL username
-        'PASSWORD':config('DB_PASSWORD'), # Replace with your MySQL password
-        'HOST': config('DB_HOST'),          # Or the IP/hostname of your MySQL server
-        'PORT': config('DB_PORT'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': str(config('DB_NAME', default='blog_db')),
+        'USER': str(config('DB_USER', default='root')),
+        'PASSWORD': str(config('DB_PASSWORD', default='')),
+        'HOST': str(config('DB_HOST', default='localhost')),
+        'PORT': str(config('DB_PORT', default='3306')),
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
 
