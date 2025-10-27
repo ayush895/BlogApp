@@ -2,11 +2,14 @@
 body {
   font-family: "Poppins", sans-serif;
   background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
+  padding: 20px 0 80px 0; /* Add bottom padding for fixed footer */
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 /* Auth Card */
@@ -19,6 +22,10 @@ body {
   max-width: 400px;
   box-sizing: border-box;
   text-align: center;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Heading */
@@ -180,6 +187,10 @@ body {
 .input-group {
   margin-bottom: 20px;
   position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .input-field-container {
@@ -428,11 +439,20 @@ input[type="password"]::-webkit-password-toggle {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Form styling */
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 /* Link styling */
 p {
   text-align: center;
   margin-top: 20px;
   color: #666;
+  width: 100%;
 }
 
 p a {
@@ -599,4 +619,54 @@ p a:hover {
 .input-field-container .validation-icon {
   max-width: 30px;
   max-height: 30px;
+}
+
+/* Footer styling */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #343a40;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+footer p {
+  margin: 0;
+  font-size: 14px;
+  text-align: center;
+  width: 100%;
+}
+
+/* Ensure all content is centered */
+.auth-container > * {
+  width: 100%;
+  text-align: center;
+}
+
+/* Center all buttons */
+.btn {
+  width: 100%;
+  max-width: 300px;
+  margin: 10px auto;
+}
+
+/* Center all links */
+.auth-container p {
+  text-align: center;
+  width: 100%;
+}
+
+/* Center messages */
+.messages {
+  width: 100%;
+  text-align: center;
+}
+
+.messages li {
+  text-align: center;
 }

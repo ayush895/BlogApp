@@ -2,21 +2,66 @@
 
 {% block content %}
 <div class="card shadow-sm">
-    {% if blog.image %}
-    <img src="{{ blog.image.url }}" class="card-img-top" alt="{{ blog.title }}">
-    {% endif %}
+    <img src="{{ blog.get_image_url }}" class="card-img-top" alt="{{ blog.title }}">
     <div class="card-body">
         <h2>{{ blog.title }}</h2>
         <p class="text-muted">By {{ blog.author.username }} | {{ blog.created_at|date:"d M Y" }}</p>
         <p>{{ blog.content }}</p>
-    <a href="{% url 'home' %}" class="btn btn-secondary btn-sm">Back</a>
-    {% if request.user == blog.author %}
-    <form method="POST" action="{% url 'blog_delete' blog.id %}" class="d-inline" onsubmit="return confirm('Delete this blog?');">
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{% url 'home' %}">
-        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-    </form>
-    {% endif %}
+        <div class="d-flex align-items-center gap-2 mb-3">
+            {% if user.is_authenticated %}
+            <button id="like-btn" data-url="{% url 'toggle_like' blog.id %}" class="btn btn-outline-danger btn-sm">
+                {% if is_liked %}Unlike{% else %}Like{% endif %}
+            </button>
+            {% else %}
+            <a href="{% url 'login' %}" class="btn btn-outline-danger btn-sm">Like</a>
+            {% endif %}
+            <span id="like-count" class="text-muted">❤️ {{ like_count }}</span>
+        </div>
+
+        <hr>
+        <h5>Comments (<span id="comments-count">{{ comments|length }}</span>)</h5>
+        {% if user.is_authenticated %}
+        <form id="comment-form" method="post" action="{% url 'add_comment' blog.id %}" class="mb-3" data-url="{% url 'add_comment' blog.id %}">
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="text" name="content" id="comment-input" class="form-control" placeholder="Write a comment...">
+                <button class="btn btn-primary" type="submit">Post</button>
+            </div>
+        </form>
+        {% else %}
+        <p class="text-muted">Login to post a comment.</p>
+        {% endif %}
+
+        <div id="comments-list">
+        {% for c in comments %}
+        <div class="border rounded p-2 mb-2 comment-item" data-comment-id="{{ c.id }}">
+            <div class="d-flex justify-content-between">
+                <strong>{{ c.user.username }}</strong>
+                <small class="text-muted">{{ c.created_at|date:"d M Y H:i" }}</small>
+            </div>
+            <div class="comment-content">{{ c.content }}</div>
+            {% if user == c.user or user == blog.author %}
+            <div class="mt-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary comment-edit-btn" data-edit-url="{% url 'edit_comment' c.id %}">Edit</button>
+                <button type="button" class="btn btn-sm btn-outline-danger comment-delete-btn" data-delete-url="{% url 'delete_comment' c.id %}">Delete</button>
+            </div>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p class="text-muted">No comments yet.</p>
+        {% endfor %}
+        </div>
+
+        <div class="d-flex justify-content-between mt-3">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="history.back()">Back</button>
+            {% if request.user == blog.author %}
+            <form method="POST" action="{% url 'blog_delete' blog.id %}" class="d-inline" onsubmit="return confirm('Delete this blog?');">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{% url 'home' %}">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}

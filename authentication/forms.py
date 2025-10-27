@@ -50,3 +50,50 @@ class LoginForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Enter your Email'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Enter your Password'}))
 
+
+# --- Forgot Password Forms ---
+class ForgotPasswordForm(forms.Form):
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'placeholder': 'Enter your email address'})
+    )
+
+
+class OTPVerificationForm(forms.Form):
+    otp = forms.CharField(
+        max_length=4,
+        min_length=4,
+        widget=forms.TextInput(attrs={
+            'placeholder': '0000',
+            'maxlength': '4',
+            'pattern': '[0-9]{4}',
+            'class': 'otp-input'
+        })
+    )
+
+
+class ResetPasswordForm(forms.Form):
+    new_password = forms.CharField(
+        label="New Password",
+        widget=forms.PasswordInput(attrs={'placeholder': 'Enter new password'}),
+        validators=[validate_password],
+        required=True
+    )
+    confirm_password = forms.CharField(
+        label="Confirm Password",
+        widget=forms.PasswordInput(attrs={'placeholder': 'Confirm new password'}),
+        required=True
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("new_password")
+        confirm = cleaned_data.get("confirm_password")
+
+        if password and confirm and password != confirm:
+            raise ValidationError("Passwords do not match.")
+        if password:
+            try:
+                validate_password(password)
+            except ValidationError as e:
+                self.add_error('new_password', e)
+        return cleaned_data

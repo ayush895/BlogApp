@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Confirm Your Account</title>
+  <link rel="stylesheet" href="{% static 'authentication/css/style.css' %}" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    .otp-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+      width: 100%;
+    }
+    .otp-input {
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      font-size: 24px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+    }
+    .otp-input:focus {
+      border-color: #007bff;
+    }
+    .resend-section {
+      text-align: center;
+      margin-top: 20px;
+      width: 100%;
+    }
+    .resend-btn {
+      background: none;
+      border: none;
+      color: #007bff;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .resend-btn:hover {
+      color: #0056b3;
+    }
+  </style>
+</head>
+<body style="padding-bottom:72px;">
+  <div class="auth-container">
+    <h2>Confirm Your Account</h2>
+    <p style="text-align: center; color: #666; margin-bottom: 30px;">
+      We sent a code to your email address. Enter that code to confirm your account.
+    </p>
+
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form method="POST" action="" id="otpForm">
+      {% csrf_token %}
+
+      <div class="otp-container">
+        <input type="text" name="otp" id="otp" class="otp-input" maxlength="4" pattern="[0-9]{4}" placeholder="0000" required>
+      </div>
+
+      <button type="submit" class="btn" id="submitBtn">Verify OTP</button>
+    </form>
+
+    <div class="resend-section">
+      <p>Didn't receive the code?</p>
+      <a href="{% url 'resend_otp' %}" class="resend-btn">Resend OTP</a>
+    </div>
+
+    <p><a href="{% url 'login' %}">Back to Login</a></p>
+  </div>
+
+  <!-- Tooltip for errors -->
+  <div id="errorTooltip" class="error-tooltip"></div>
+
+  <footer>
+    <p>© {% now "Y" %} My Blog | Built with Django & Bootstrap</p>
+  </footer>
+
+  <script>
+    // Auto-focus on OTP input
+    document.getElementById('otp').focus();
+    
+    // Auto-submit when 4 digits are entered
+    document.getElementById('otp').addEventListener('input', function(e) {
+      if (e.target.value.length === 4) {
+        document.getElementById('otpForm').submit();
+      }
+    });
+  </script>
+</body>
+</html>

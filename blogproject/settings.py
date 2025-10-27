@@ -144,3 +144,17 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
  
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+# Email Configuration
+# Using SMTP for actual email sending
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'jainayush895@gmail.com'  # Replace with your Gmail
+EMAIL_HOST_PASSWORD = 'ecgf leen iwmb uxyt'  # Replace with your Gmail App Password
+DEFAULT_FROM_EMAIL = 'jainayush895@gmail.com'  # Replace with your Gmail
+EMAIL_TIMEOUT = 30
+
+# For testing without email setup, uncomment the line below:
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -9,7 +9,7 @@
      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
    />
  </head>
- <body>
+ <body style="padding-bottom:72px;">
    <div class="auth-container">
      <h2>Login</h2>
 
@@ -72,6 +72,7 @@
 
 
      <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+     <p><a href="{% url 'forgot_password' %}">Forgot Password?</a></p>
    </div>
 
 
@@ -100,7 +101,10 @@
            ? '<i class="fa fa-eye"></i>'
            : '<i class="fa fa-eye-slash"></i>';
      });
-   </script>f
+   </script>
    <script src="{% static 'authentication/js/login.js' %}"></script>
+  <footer>
+    <p>© {% now "Y" %} My Blog | Built with Django & Bootstrap</p>
+  </footer>
  </body>
 </html>
