@@ -3,8 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden, JsonResponse
-from django.urls import reverse
+from django.http import HttpResponseForbidden
 from .models import Blog, Like, Comment
 from .forms import BlogForm
 from utils.common import get_default_blog_image, validate_image_file, send_email_notification, get_user_display_name
@@ -93,26 +92,9 @@ def my_blogs(request):
 @login_required
 def toggle_like(request, blog_id):
     blog = get_object_or_404(Blog, id=blog_id)
-    # Only allow POST (and only for authenticated users via decorator)
-    if request.method != 'POST':
-        return HttpResponseForbidden("Invalid method")
-
     like, created = Like.objects.get_or_create(blog=blog, user=request.user)
     if not created:
         like.delete()
-        is_liked = False
-    else:
-        is_liked = True
-
-    # If AJAX request, return JSON so front-end can update without reload
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return JsonResponse({
-            'is_liked': is_liked,
-            'like_count': blog.likes.count(),
-        })
-
-    # Fallback: use messages and redirect for non-AJAX clients
-    if not is_liked:
         messages.info(request, "You unliked this blog.")
     else:
         messages.success(request, "You liked this blog.")
@@ -124,30 +106,9 @@ def add_comment(request, blog_id):
     if request.method == 'POST':
         content = (request.POST.get('content') or '').strip()
         if not content:
-            # If AJAX, return JSON error
-            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({'error': 'Comment cannot be empty.'}, status=400)
             messages.error(request, "Comment cannot be empty.")
             return redirect('blog_detail', blog.id)
-
-        comment = Comment.objects.create(blog=blog, user=request.user, content=content)
-
-        # If AJAX, return the created comment data so the client can append it
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            can_modify = (request.user == comment.user) or (request.user == comment.blog.author)
-            edit_url = reverse('edit_comment', args=[comment.id])
-            delete_url = reverse('delete_comment', args=[comment.id])
-            return JsonResponse({
-                'id': comment.id,
-                'user': comment.user.username,
-                'content': comment.content,
-                'created_at': comment.created_at.isoformat(),
-                'comment_count': Comment.objects.filter(blog=blog).count(),
-                'can_modify': can_modify,
-                'delete_url': delete_url,
-                'edit_url': edit_url,
-            })
-
+        Comment.objects.create(blog=blog, user=request.user, content=content)
         messages.success(request, "Comment added.")
     return redirect('blog_detail', blog.id)
 
@@ -157,48 +118,10 @@ def delete_comment(request, comment_id):
     if request.user != comment.user and request.user != comment.blog.author:
         return HttpResponseForbidden("You cannot delete this comment.")
     blog_id = comment.blog.id
-    if request.method != 'POST':
-        return HttpResponseForbidden("Invalid method")
-
-    comment.delete()
-
-    # If AJAX, return JSON so client can remove the element without reload
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        comment_count = Comment.objects.filter(blog__id=blog_id).count()
-        return JsonResponse({'deleted': True, 'comment_id': comment_id, 'comment_count': comment_count})
-
-    messages.success(request, "Comment deleted.")
+    if request.method == 'POST':
+        comment.delete()
+        messages.success(request, "Comment deleted.")
     return redirect('blog_detail', blog_id)
-
-
-@login_required
-def edit_comment(request, comment_id):
-    comment = get_object_or_404(Comment, id=comment_id)
-    if request.user != comment.user and request.user != comment.blog.author:
-        return HttpResponseForbidden("You cannot edit this comment.")
-
-    if request.method != 'POST':
-        return HttpResponseForbidden("Invalid method")
-
-    content = (request.POST.get('content') or '').strip()
-    if not content:
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'error': 'Content cannot be empty.'}, status=400)
-        messages.error(request, "Comment cannot be empty.")
-        return redirect('blog_detail', comment.blog.id)
-
-    comment.content = content
-    comment.save()
-
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return JsonResponse({
-            'id': comment.id,
-            'content': comment.content,
-            'created_at': comment.created_at.isoformat(),
-        })
-
-    messages.success(request, "Comment updated.")
-    return redirect('blog_detail', comment.blog.id)
 
 @login_required
 def blog_edit(request, blog_id):

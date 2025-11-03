@@ -43,8 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'drf_spectacular',
     'blogapp',
     'authentication', 
+    'drf_yasg',
+    'api',
  
 ]
 
@@ -158,3 +162,32 @@ EMAIL_TIMEOUT = 30
 
 # For testing without email setup, uncomment the line below:
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+# Django REST Framework / drf-yasg (Swagger) settings
+SWAGGER_SETTINGS = {
+    # Allow using the Authorization header (useful if you add JWT or token auth later)
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    'USE_SESSION_AUTH': True,
+}
+
+REST_FRAMEWORK = {
+    # Default permissions: allow read-only access for unauthenticated users
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    # Default pagination (optional)
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.MultiPartParser'   
+    )
+}
