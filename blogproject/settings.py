@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'drf_spectacular',
     'blogapp',
     'authentication', 
@@ -59,6 +60,9 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    # Development helper: clear sessions on first request so dev-server restarts
+    # don't leave users logged-in due to existing session rows + browser cookies.
+    'blogproject.middleware.ClearSessionsOnFirstRequestMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -191,3 +195,6 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.MultiPartParser'   
     )
 }
+
+# Expire session cookies when browser is closed to avoid persistent login across restarts
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

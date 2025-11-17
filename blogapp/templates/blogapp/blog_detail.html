@@ -1,62 +1,106 @@
-{% extends 'blogapp/base.html' %}
-
-{% block content %}
+{% extends 'blogapp/base.html' %} {% block content %}
 <div class="card shadow-sm">
-    <img src="{{ blog.get_image_url }}" class="card-img-top" alt="{{ blog.title }}">
-    <div class="card-body">
-        <h2>{{ blog.title }}</h2>
-        <p class="text-muted">By {{ blog.author.username }} | {{ blog.created_at|date:"d M Y" }}</p>
-        <p>{{ blog.content }}</p>
-        <div class="d-flex align-items-center gap-2 mb-3">
-            <form method="post" action="{% url 'toggle_like' blog.id %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-outline-danger btn-sm">
-                    {% if is_liked %}Unlike{% else %}Like{% endif %}
-                </button>
-            </form>
-            <span class="text-muted">❤️ {{ like_count }}</span>
-        </div>
-
-        <hr>
-        <h5>Comments ({{ comments|length }})</h5>
-        {% if user.is_authenticated %}
-        <form method="post" action="{% url 'add_comment' blog.id %}" class="mb-3">
-            {% csrf_token %}
-            <div class="input-group">
-                <input type="text" name="content" class="form-control" placeholder="Write a comment...">
-                <button class="btn btn-primary" type="submit">Post</button>
-            </div>
-        </form>
-        {% else %}
-        <p class="text-muted">Login to post a comment.</p>
-        {% endif %}
-
-        {% for c in comments %}
-        <div class="border rounded p-2 mb-2">
-            <div class="d-flex justify-content-between">
-                <strong>{{ c.user.username }}</strong>
-                <small class="text-muted">{{ c.created_at|date:"d M Y H:i" }}</small>
-            </div>
-            <div>{{ c.content }}</div>
-            {% if user == c.user or user == blog.author %}
-            <form method="post" action="{% url 'delete_comment' c.id %}" class="mt-1" onsubmit="return confirm('Delete this comment?');">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-            </form>
-            {% endif %}
-        </div>
-        {% empty %}
-        <p class="text-muted">No comments yet.</p>
-        {% endfor %}
-
-        <a href="{% url 'home' %}" class="btn btn-secondary btn-sm mt-3">Back</a>
-    {% if request.user == blog.author %}
-    <form method="POST" action="{% url 'blog_delete' blog.id %}" class="d-inline" onsubmit="return confirm('Delete this blog?');">
+  <img
+    src="{{ blog.get_image_url }}"
+    class="card-img-top"
+    alt="{{ blog.title }}"
+  />
+  <div class="card-body">
+    <h2>{{ blog.title }}</h2>
+    <p class="text-muted">
+      By {{ blog.author.username }} | {{ blog.created_at|date:"d M Y" }}
+    </p>
+    <p>{{ blog.content }}</p>
+    <div class="d-flex align-items-center gap-2 mb-3">
+      <form
+        method="post"
+        action="{% url 'toggle_like' blog.id %}"
+        class="like-form"
+        data-blog-id="{{ blog.id }}"
+      >
         {% csrf_token %}
-        <input type="hidden" name="next" value="{% url 'home' %}">
-        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+        <button type="submit" class="btn btn-outline-danger btn-sm like-button">
+          {% if is_liked %}Unlike{% else %}Like{% endif %}
+        </button>
+      </form>
+      <span class="text-muted"
+        >❤️ <span id="like-count">{{ like_count }}</span></span
+      >
+    </div>
+
+    <hr />
+    <h5>Comments ({{ comments|length }})</h5>
+    {% if user.is_authenticated %}
+    <form
+      method="post"
+      action="{% url 'add_comment' blog.id %}"
+      class="mb-3 comment-form"
+      data-blog-id="{{ blog.id }}"
+    >
+      {% csrf_token %}
+      <div class="input-group">
+        <input
+          type="text"
+          name="content"
+          class="form-control"
+          placeholder="Write a comment..."
+        />
+        <button class="btn btn-primary" type="submit">Post</button>
+      </div>
+    </form>
+    {% else %}
+    <p class="text-muted">Login to post a comment.</p>
+    {% endif %}
+
+    <div
+      id="comments-list"
+      data-current-user="{{ user.username }}"
+      data-blog-author="{{ blog.author.username }}"
+    >
+      {% for c in comments %}
+      <div
+        class="border rounded p-2 mb-2 comment-item"
+        id="comment-{{ c.id }}"
+        data-comment-id="{{ c.id }}"
+      >
+        <div class="d-flex justify-content-between">
+          <strong>{{ c.user.username }}</strong>
+          <small class="text-muted">{{ c.created_at|date:"d M Y H:i" }}</small>
+        </div>
+        <div class="comment-content">{{ c.content }}</div>
+        {% if user == c.user or user == blog.author %}
+        <form
+          method="post"
+          action="{% url 'delete_comment' c.id %}"
+          class="mt-1 delete-comment-form"
+          data-comment-id="{{ c.id }}"
+          onsubmit="return false;"
+        >
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-outline-danger">
+            Delete
+          </button>
+        </form>
+        {% endif %}
+      </div>
+      {% empty %}
+      <p class="text-muted" id="no-comments">No comments yet.</p>
+      {% endfor %}
+    </div>
+
+    <a href="{% url 'home' %}" class="btn btn-secondary btn-sm mt-3">Back</a>
+    {% if request.user == blog.author %}
+    <form
+      method="POST"
+      action="{% url 'blog_delete' blog.id %}"
+      class="d-inline"
+      onsubmit="return confirm('Delete this blog?');"
+    >
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{% url 'home' %}" />
+      <button type="submit" class="btn btn-danger btn-sm">Delete</button>
     </form>
     {% endif %}
-    </div>
+  </div>
 </div>
 {% endblock %}

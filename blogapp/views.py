@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
+from django.http import JsonResponse
 from .models import Blog, Like, Comment
 from .forms import BlogForm
 from utils.common import get_default_blog_image, validate_image_file, send_email_notification, get_user_display_name
@@ -96,8 +97,13 @@ def toggle_like(request, blog_id):
     if not created:
         like.delete()
         messages.info(request, "You unliked this blog.")
+        liked = False
     else:
         messages.success(request, "You liked this blog.")
+        liked = True
+    # If AJAX request, return JSON so frontend can update without reload
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'liked': liked, 'like_count': blog.likes.count()})
     return redirect('blog_detail', blog.id)
 
 @login_required
@@ -107,9 +113,19 @@ def add_comment(request, blog_id):
         content = (request.POST.get('content') or '').strip()
         if not content:
             messages.error(request, "Comment cannot be empty.")
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'error': 'Comment cannot be empty.'}, status=400)
             return redirect('blog_detail', blog.id)
-        Comment.objects.create(blog=blog, user=request.user, content=content)
+        comment = Comment.objects.create(blog=blog, user=request.user, content=content)
         messages.success(request, "Comment added.")
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            # return minimal data to render on client
+            return JsonResponse({
+                'id': comment.id,
+                'user': comment.user.username,
+                'content': comment.content,
+                'created_at': comment.created_at.strftime('%d %b %Y %H:%M'),
+            })
     return redirect('blog_detail', blog.id)
 
 @login_required
@@ -121,6 +137,8 @@ def delete_comment(request, comment_id):
     if request.method == 'POST':
         comment.delete()
         messages.success(request, "Comment deleted.")
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'deleted': True, 'comment_id': comment_id})
     return redirect('blog_detail', blog_id)
 
 @login_required
